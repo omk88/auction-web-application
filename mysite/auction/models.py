@@ -15,3 +15,11 @@ class Item(models.Model):
     end_datetime = models.DateTimeField()
     def __str__(self):
         return "{self.title}, {self.description}"
+
+class Bid(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User)
+    items = models.ForeignKey(Item)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    def __str__(self):
+        return self.amount
