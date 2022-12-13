@@ -45,16 +45,30 @@ class Bid(models.Model):
             'amount': self.amount
         }
 
-class Comment(models.Model):
+class Question(models.Model):
     user = models.ForeignKey(CustomUser, related_name='comments', on_delete=models.CASCADE)
-    comment = models.TextField(max_length=600, default='', blank=True)
+    question = models.TextField(max_length=600, default='', blank=True)
 
     def __str__(self):
-        return self.comment
+        return self.question
 
     def to_dict(self):
         return {
             'id': self.id,
             'user': self.user,
-            'comment': self.comment,
+            'comment': self.question,
+        }
+
+class Answer(models.Model):
+    user = models.ForeignKey(CustomUser, related_name='comments', on_delete=models.CASCADE)
+    answer = models.TextField(max_length=600, default='', blank=True)
+
+    def __str__(self):
+        return self.answer
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user': self.user,
+            'comment': self.answer,
         }
