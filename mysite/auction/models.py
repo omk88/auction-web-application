@@ -1,7 +1,7 @@
 import os
 from django.db import models
 from django.conf import settings
-#from mysite.users.models import models
+from mysite.users.models import models
 
 def image_path():
     return os.path.join(settings.LOCAL_FILE_DIR, 'images')
