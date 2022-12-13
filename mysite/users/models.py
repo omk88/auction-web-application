@@ -1,17 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import datetime
 
 # Create your models here.
 class CustomUser(AbstractUser):
-    STATUS = (
-        ('regular', 'regular'),
-        ('subscriber', 'subscriber'),
-        ('moderator', 'moderator')
-    )
-
+    d = datetime.date(1997, 10, 19)
     email = models.EmailField(unique=True)
-    status = models.CharField(max_length=100, choices=STATUS, default='regular')
-    description = models.TextField('Description', max_length=600, default='', blank=True)
+    dob = models.DateField(default=d)
+    profile_picture = models.ImageField(default='default.png',upload_to='uploads/')
+    
+    
 
     def __str__(self):
         return self.username
