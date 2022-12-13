@@ -1,13 +1,13 @@
 import os
 from django.db import models
 from django.conf import settings
-from users.models import models
+from users.models import CustomUser
 
 def image_path():
     return os.path.join(settings.LOCAL_FILE_DIR, 'images')
 
 class Item(models.Model): 
-    user = models.ForeignKey(User, related_name='items', on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, related_name='items', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(max_length=600, default='', blank=True)
@@ -30,7 +30,7 @@ class Item(models.Model):
 
 class Bid(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, related_name='bids', on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, related_name='bids', on_delete=models.CASCADE)
     item = models.ForeignKey(Item, related_name='bids', on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -46,8 +46,8 @@ class Bid(models.Model):
         }
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
-    comment = description = models.TextField(max_length=600, default='', blank=True)
+    user = models.ForeignKey(CustomUser, related_name='comments', on_delete=models.CASCADE)
+    comment = models.TextField(max_length=600, default='', blank=True)
 
     def __str__(self):
         return self.comment
