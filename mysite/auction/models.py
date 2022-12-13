@@ -11,7 +11,7 @@ class Item(models.Model):
     title = models.CharField(max_length=100)
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(max_length=600, default='', blank=True)
-    item_image = models.FilePathField(path=image_path)
+    item_image = models.ImageField(upload_to='uploads/')
     end_datetime = models.DateTimeField()
 
     def __str__(self):
@@ -24,7 +24,7 @@ class Item(models.Model):
             'title': self.title,
             'starting_price': self.starting_price,
             'description': self.description,
-            'item_image': self.item_image,
+            'item_image': self.item_image.url,
             'end_datetime': self.end_datetime
         }
 
@@ -46,7 +46,7 @@ class Bid(models.Model):
         }
 
 class Comment(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
     comment = description = models.TextField(max_length=600, default='', blank=True)
 
     def __str__(self):
