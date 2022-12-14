@@ -19,23 +19,37 @@
 
 <script>
 export default {
-  data() {
-      return {
-          items: [],
-          item: {},
-      }
-  },
-  methods: {
-      async fetchItems() {
-          let response = await fetch("http://localhost:8000/api/items/");
-          let data = await response.json();
-          this.items = data.items;
+    data() {
+        return {
+            items: [],
+            item: {},
+        }
+    },
+    methods: {
+        async fetchItems() {
+            let response = await fetch(
+                "http://localhost:8000/api/items/",
+                {
+                    credentials: "include",
+                    mode: "cors",
+                    referrerPolicy: "no-referrer",
+                }
+                );
+        let data = await response.json();
+        this.items = data.items;
       },
 
       async fetchItem(item_id) {
-          let response = await fetch("http://localhost:8000/api/item/" + String(item_id) + "/");
-          let data = await response.json();
-          this.item = data.items;
+            let response = await fetch(
+                "http://localhost:8000/api/item/" + String(item_id) + "/",
+                {
+                    credentials: "include",
+                    mode: "cors",
+                    referrerPolicy: "no-referrer",
+                }
+                );
+            let data = await response.json();
+            this.item = data.items;
       },
   }
 }

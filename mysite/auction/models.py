@@ -58,7 +58,7 @@ class Question(models.Model):
         return {
             'id': self.id,
             'user': self.user,
-            'comment': self.question,
+            'question': self.question,
         }
 
 class Answer(models.Model):
@@ -72,5 +72,5 @@ class Answer(models.Model):
         return {
             'id': self.id,
             'user': self.user,
-            'comment': self.answer,
+            'answer': self.answer,
         }
