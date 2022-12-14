@@ -12,8 +12,8 @@ class Item(models.Model):
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(max_length=600, default='', blank=True)
     item_image = models.ImageField(upload_to='uploads/')
-    end_date = models.DateField()
-    end_time = models.TimeField()
+    end_date = models.DateField(auto_now=True)
+    end_time = models.TimeField(auto_now=True)
 
     def __str__(self):
         return "{self.title}, {self.description}"
