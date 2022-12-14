@@ -26,16 +26,16 @@ export default {
   },
   methods: {
       async fetchItems() {
-          let response = await fetch("http://localhost:8000/api/items/" + String)
-          let data = await response.json()
-          this.items = data.items
-      }
+          let response = await fetch("http://localhost:8000/api/items/");
+          let data = await response.json();
+          this.items = data.items;
+      },
 
-      async fetchItems(item_id) {
-          let response = await fetch("http://localhost:8000/api/item/" + String(item_id) + "/")
-          let data = await response.json()
-          this.item = data.item
-      }
+      async fetchItem(item_id) {
+          let response = await fetch("http://localhost:8000/api/item/" + String(item_id) + "/");
+          let data = await response.json();
+          this.item = data.items;
+      },
   }
 }
 </script>

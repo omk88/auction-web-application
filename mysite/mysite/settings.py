@@ -46,21 +46,13 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-<<<<<<< Updated upstream
-    "django.middleware.common.CommonMiddleware",
-=======
     'django.middleware.common.CommonMiddleware',
->>>>>>> Stashed changes
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 CORS_ALLOWED_ORIGINS = [
 "http://localhost:5173",
 "http://127.0.0.1:5173",

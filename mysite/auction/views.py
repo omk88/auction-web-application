@@ -9,7 +9,8 @@ def items_api(request):
     if request.method == 'GET':
         return JsonResponse({
             'items': [
-                item.to_dict() for item in Item.objects.all()
+                item.to_dict() 
+                for item in Item.objects.all()
             ]
         })
     
