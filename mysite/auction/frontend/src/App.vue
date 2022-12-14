@@ -7,7 +7,8 @@
                   {{ item.title }}
                   {{ item.starting_price }}
                   {{ item.description }}
-                  {{ item.end_datetime }}
+                  {{ item.end_date }}
+                  {{ item.end_time }}
               </li>
           </ul>
       </div>
