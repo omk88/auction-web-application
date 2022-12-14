@@ -46,7 +46,7 @@ class Bid(models.Model):
         }
 
 class Question(models.Model):
-    user = models.ForeignKey(CustomUser, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, related_name='questions', on_delete=models.CASCADE)
     question = models.TextField(max_length=600, default='', blank=True)
 
     def __str__(self):
@@ -60,7 +60,7 @@ class Question(models.Model):
         }
 
 class Answer(models.Model):
-    user = models.ForeignKey(CustomUser, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, related_name='answers', on_delete=models.CASCADE)
     answer = models.TextField(max_length=600, default='', blank=True)
 
     def __str__(self):
