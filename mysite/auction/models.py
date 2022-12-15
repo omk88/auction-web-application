@@ -3,9 +3,6 @@ from django.db import models
 from django.conf import settings
 from users.models import CustomUser
 
-def image_path():
-    return os.path.join(settings.LOCAL_FILE_DIR, 'images')
-
 class Item(models.Model): 
     user = models.ForeignKey(CustomUser, related_name='items', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
@@ -52,7 +49,6 @@ class Question(models.Model):
     user = models.ForeignKey(CustomUser, related_name='questions', on_delete=models.CASCADE)
     item = models.ForeignKey(Item, related_name='questions', on_delete=models.CASCADE, null=True)
     question = models.TextField(max_length=600, default='', blank=True)
-    
 
     def __str__(self):
         return self.question
