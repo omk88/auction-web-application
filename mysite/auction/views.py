@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.parsers import JSONParser
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.db.models import Q
+from django.conf import settings
 
 from users.models import CustomUser
 from .models import Item, Bid, Question, Answer
@@ -87,7 +88,7 @@ def answer_api(request: HttpRequest) -> HttpResponse:
         item_data = get_object_or_404(Item, id=data['item'])
         question_data = get_object_or_404(Question, id=data['question'])
         if (item_data.user == current_user):
-            answer = Question(user = current_user, item = item_data, question = question_data, answer = data['answer'])
+            answer = Answer(user = current_user, item = item_data, question = question_data, answer = data['answer'])
             answer.save()
             serializer = AnswerSerializer(answer, many=False)
             return JsonResponse({
@@ -111,29 +112,22 @@ def questions_api(request: HttpRequest, item_id: int) -> HttpResponse:
     if request.method == 'GET':
         item_data = get_object_or_404(Item, id=item_id)
         questions = Question.objects.filter(Q(item=item_data))
-        if (len(questions) > 1):
-            serializer = QuestionSerializer(questions, many=True)
-            return JsonResponse({
-                'questions': serializer.data
-            })
-        else:
-            serializer = QuestionSerializer(questions, many=False)
-            return JsonResponse({
-                'questions': serializer.data
-            })
+        serializer = QuestionSerializer(questions, many=True)
+        return JsonResponse({
+            'questions': serializer.data
+        })
 
 @csrf_exempt
 def answers_api(request: HttpRequest, question_id: int) -> HttpResponse:
     if request.method == 'GET':
         question_data = get_object_or_404(Question, id=question_id)
         answers = Answer.objects.filter(Q(question=question_data))
-        if (len(answers) > 1):
-            serializer = AnswerSerializer(answers, many=True)
-            return JsonResponse({
-                'answers': serializer.data
-            })
-        else:
-            serializer = AnswerSerializer(answers, many=False)
-            return JsonResponse({
-                'answers': serializer.data
-            })
+        serializer = AnswerSerializer(answers, many=True)
+        return JsonResponse({
+            'answers': serializer.data
+        })
+@csrf_exempt
+def get_user(request: HttpRequest) -> HttpResponse:
+    if request.method == 'GET':
+        current_user = request.user
+        return JsonResponse(current_user.id, safe=False)
