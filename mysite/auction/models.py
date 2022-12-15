@@ -55,7 +55,9 @@ class Bid(models.Model):
 
 class Question(models.Model):
     user = models.ForeignKey(CustomUser, related_name='questions', on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, related_name='questions', on_delete=models.CASCADE, null=True)
     question = models.TextField(max_length=600, default='', blank=True)
+    
 
     def __str__(self):
         return self.question
@@ -64,11 +66,14 @@ class Question(models.Model):
         return {
             'id': self.id,
             'user': self.user,
-            'question': self.question,
+            'item': self.item,
+            'queston': self.question,
         }
 
 class Answer(models.Model):
     user = models.ForeignKey(CustomUser, related_name='answers', on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, related_name='answers', on_delete=models.CASCADE, null=True)
+    question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE, null=True)
     answer = models.TextField(max_length=600, default='', blank=True)
 
     def __str__(self):
@@ -78,5 +83,7 @@ class Answer(models.Model):
         return {
             'id': self.id,
             'user': self.user,
+            'item': self.item,
+            'question': self.question,
             'answer': self.answer,
         }
