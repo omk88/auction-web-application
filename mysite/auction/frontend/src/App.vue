@@ -10,7 +10,7 @@
     <form @submit.prevent="bidItem">
         <div>
             <label>Bid</label>
-            <input type="text" v-model="bid" placeholder="Bid">
+            <input type="text" placeholder="Enter amount">
             <button type="submit">Submit</button>
         </div>
     </form>
@@ -19,12 +19,20 @@
         <button @click="fetchItems">Get Listings</button>
         <div>
             <ul>
-                <li v-for="item in items">
+                <li v-for="item in items" :key="item.id">
                     {{ item.title }}
                     {{ item.starting_price }}
                     {{ item.description }}
                     {{ item.end_date }}
                     {{ item.end_time }}
+                    <form @submit.prevent="bidIem">
+                        <div>
+                            <label>Bid</label>
+                            <input type="text" v-model="bid.amount" placeholder="Enter amount">
+                            <input hidden v-model="bid.item" placeholder="">
+                            <button type="submit">Submit</button>
+                        </div>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -39,6 +47,7 @@ export default {
         return {
             items: [],
             item: {},
+            bid: {},
         }
     },
     methods: {
@@ -69,7 +78,7 @@ export default {
         },
 
         async searchItems() {
-            fetch('http://localhost:8000/api/search/', 
+            let response = await fetch('http://localhost:8000/api/search/', 
             {
                 method: "post",
                 credentials: "include",
@@ -81,7 +90,9 @@ export default {
                 body: JSON.stringify(this.searchText)
             }
             );
-        }
+            let data = await response.json();
+            this.items = data.items;
+        },
     }
 }
 </script>
