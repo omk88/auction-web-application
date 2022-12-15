@@ -7,8 +7,8 @@
         </section>
 
         <div class="item-desc" v-for="item in items" v-bind:key="item.id">
-            <figure class="item-image" >
-                <img v-bind:src="item.item_image"/>
+            <figure class="item-image">
+                <img v-bind:src="item.get_image"/>
             </figure>
 
             <span class="item-title">{{item.title}}<br></span>
@@ -86,7 +86,7 @@ export default {
             );
             let data = await response.json();
             this.bid = data.bid;
-        }
+        },
 
         async fetchBids(item_id) {
             let response = await fetch(
