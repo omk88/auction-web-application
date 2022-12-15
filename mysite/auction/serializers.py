@@ -32,6 +32,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'user',
+            'item',
             'question'
             ]
 
@@ -41,5 +42,7 @@ class AnswerSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'user',
+            'item',
+            'question',
             'answer'
             ]

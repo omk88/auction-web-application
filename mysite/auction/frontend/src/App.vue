@@ -7,6 +7,22 @@
         </div>
     </form>
 
+    <form @submit.prevent="sendQuestion">
+        <div>
+            <label>Question</label>
+            <input type="text" v-model="searchText" placeholder="Search">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
+    <form @submit.prevent="sendAnswer">
+        <div>
+            <label>Answer</label>
+            <input type="text" v-model="searchText" placeholder="Search">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
     <form @submit.prevent="bidItem">
         <div>
             <label>Bid</label>
@@ -25,11 +41,12 @@
                     {{ item.description }}
                     {{ item.end_date }}
                     {{ item.end_time }}
-                    <form @submit.prevent="bidIem">
+                    {{ item.id }}
+                    <form @submit.prevent="bidItem(item.id)">
                         <div>
                             <label>Bid</label>
-                            <input type="text" v-model="bid.amount" placeholder="Enter amount">
-                            <input hidden v-model="bid.item" placeholder="">
+                            <input type="text" v-model="bidAmount" placeholder="Enter amount">
+                            <input hidden placeholder="">
                             <button type="submit">Submit</button>
                         </div>
                     </form>
@@ -93,6 +110,26 @@ export default {
             let data = await response.json();
             this.items = data.items;
         },
+
+        async bidItem(item_id) {
+            var obj = {item: item_id, amount: this.bidAmount};
+            let response = await fetch('http://localhost:8000/api/bid/', 
+            {
+                method: "post",
+                credentials: "include",
+                mode: "cors",
+                referrerPolicy: "no-referrer",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+            }
+            );
+            let data = await response.json();
+            this.bid = data.bid;
+        },
+
+        
     }
 }
 </script>
