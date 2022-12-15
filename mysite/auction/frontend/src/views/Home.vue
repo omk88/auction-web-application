@@ -11,20 +11,36 @@
                 <img v-bind:src="item.item_image"/>
             </figure>
 
-            <span class="item-title">{{item.title}}</span>
-            <span class="item-price">{{item.starting_price}}</span>
+            <span class="item-title">{{item.title}}<br></span>
+            <span class="item-price">{{item.starting_price}}<br></span>
+            <span class="item-description">{{item.description}}<br></span>
+            <span class="item-end_date">{{item.end_date}}<br></span>
+            <span class="item-end_time">{{item.end_time}}<br></span>
         </div>
-    </div>    
+    </div>
+
+    <div class="container">
+
+        <form class="form" @submit.prevent=bidItem>
+            <div>
+                <label>Bid</label>
+                <input type="text" v-model="bid" placeholder="Bid">
+                <button class="btn" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>
 export default {
-    name: 'Home',
     data() {
         return {
             items: [],
             item: {}
         }
+    },
+    mounted() {
+        this.fetchItems()
     },
     methods: {
         async fetchItems() {
@@ -51,23 +67,7 @@ export default {
                 );
             let data = await response.json();
             this.item = data.item;
-        },
-
-        async searchItems() {
-            fetch('http://localhost:8000/api/search/', 
-            {
-                method: "post",
-                credentials: "include",
-                mode: "cors",
-                referrerPolicy: "no-referrer",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.searchText)
-            }
-            );
         }
-
     }
 }
 </script>
