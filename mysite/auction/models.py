@@ -16,7 +16,7 @@ class Item(models.Model):
     end_time = models.TimeField(auto_now=True)
 
     def __str__(self):
-        return self.title, self.description
+        return self.title
 
     def to_dict(self):
         return {
@@ -42,7 +42,8 @@ class Bid(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return self.amount
+        string = str(self.amount)
+        return string
     
     def to_dict(self):
         return {

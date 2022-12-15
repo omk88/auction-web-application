@@ -16,18 +16,13 @@
             <span class="item-description">{{item.description}}<br></span>
             <span class="item-end_date">{{item.end_date}}<br></span>
             <span class="item-end_time">{{item.end_time}}<br></span>
+            <span class="item-id">{{item.id}}<br></span>
         </div>
     </div>
 
     <div class="container">
 
-        <form class="form" @submit.prevent=bidItem>
-            <div>
-                <label>Bid</label>
-                <input type="text" v-model="bid" placeholder="Bid">
-                <button class="btn" type="submit">Submit</button>
-            </div>
-        </form>
+        
     </div>
 </template>
 
@@ -36,7 +31,8 @@ export default {
     data() {
         return {
             items: [],
-            item: {}
+            item: {},
+            bid: {}
         }
     },
     mounted() {
@@ -67,6 +63,24 @@ export default {
                 );
             let data = await response.json();
             this.item = data.item;
+        },
+
+        async bidItem(item_id) {
+            var obj = {item: item_id, amount: this.bidAmount};
+            let response = await fetch('http://localhost:8000/api/bid/', 
+            {
+                method: "post",
+                credentials: "include",
+                mode: "cors",
+                referrerPolicy: "no-referrer",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+            }
+            );
+            let data = await response.json();
+            this.bid = data.bid;
         }
     }
 }

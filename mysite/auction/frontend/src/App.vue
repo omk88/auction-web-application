@@ -23,7 +23,7 @@
 export default {
     methods: {
         async searchItems() {
-            fetch('http://localhost:8000/api/search/', 
+            let response = await fetch('http://localhost:8000/api/search/', 
             {
                 method: "post",
                 credentials: "include",
@@ -35,6 +35,8 @@ export default {
                 body: JSON.stringify(this.searchText)
             }
             );
+            let data= await response.json();
+            this.items = data.items
         }
     }
 }
