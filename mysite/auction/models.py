@@ -29,6 +29,11 @@ class Item(models.Model):
             'end_date': self.end_date,
             'end_time': self.end_time
         }
+    
+    def get_image(self):
+        if self.item_image:
+            return 'http://localhost:8000' + self.item_image
+        return ''
 
 class Bid(models.Model):
     id = models.AutoField(primary_key=True)
