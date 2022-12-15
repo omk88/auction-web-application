@@ -2,38 +2,33 @@
     <form @submit.prevent="searchItems">
         <div>
             <label>Search</label>
-            <input type="text" v-model="searchText" placeholder="Search">
+            <input type="text" v-model="searchText" placeholder="Enter text here...">
             <button type="submit">Submit</button>
         </div>
     </form>
-    <form @submit.prevent="sendQuestion">
+    <form @submit.prevent="sendQuestion(1)">
         <div>
             <label>Question</label>
-            <input type="text" v-model="searchText" placeholder="Search">
+            <input type="text" v-model="questionText" placeholder="Enter text here...">
             <button type="submit">Submit</button>
         </div>
     </form>
 
-    <form @submit.prevent="sendAnswer">
+    <form @submit.prevent="sendAnswer(1, 2)">
         <div>
             <label>Answer</label>
-            <input type="text" v-model="searchText" placeholder="Search">
-            <button type="submit">Submit</button>
-        </div>
-    </form>
-    
-    <form @submit.prevent="bidItem">
-        <div>
-            <label>Bid</label>
-            <input type="text" placeholder="Enter amount">
+            <input type="text" v-model="answerText" placeholder="Enter text here...">
             <button type="submit">Submit</button>
         </div>
     </form>
 
     <div>
         <button @click="fetchItems">Get Listings</button>
-        <div>
-            
+        <button @click="getUser">Get User</button>
+        <button @click="fetchBids(1)">Get Bid</button>
+        <button @click="fetchQuestions(1)">Get Question</button>
+        <button @click="fetchAnswers(1)">Get Answer</button>
+        <div> 
             <ul>
                 <li v-for="item in items" :key="item.id">
                     {{ item.title }}
@@ -56,8 +51,6 @@
     </div>
 </template>
 
-
-
 <script>
 export default {
     data() {
@@ -70,6 +63,7 @@ export default {
             answers: [],
             question: {},
             answer: {},
+            user: {},
         }
     },
     methods: {
@@ -125,7 +119,7 @@ export default {
             this.questions = data.questions;
         },
 
-        async fetchAnswers(item_id) {
+        async fetchAnswers(question_id) {
             let response = await fetch(
                 "http://localhost:8000/api/answers/" + String(question_id) + "/",
                 {
@@ -207,7 +201,20 @@ export default {
             );
             let data = await response.json();
             this.answer = data.answer;
-        },        
+        },
+
+        async getUser() {
+            let response = await fetch(
+                "http://localhost:8000/api/user/",
+                {
+                    credentials: "include",
+                    mode: "cors",
+                    referrerPolicy: "no-referrer",
+                }
+                );
+        let data = await response.json();
+        this.user = data.user;
+        },
     }
 }
 </script>

@@ -1,10 +1,10 @@
 import os
 from django.db import models
 from django.conf import settings
-from users.models import CustomUser
+#from users.models import CustomUser
 
 class Item(models.Model): 
-    user = models.ForeignKey(CustomUser, related_name='items', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='items', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(max_length=600, default='', blank=True)
@@ -29,7 +29,7 @@ class Item(models.Model):
 
 class Bid(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(CustomUser, related_name='bids', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bids', on_delete=models.CASCADE)
     item = models.ForeignKey(Item, related_name='bids', on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -46,7 +46,7 @@ class Bid(models.Model):
         }
 
 class Question(models.Model):
-    user = models.ForeignKey(CustomUser, related_name='questions', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='questions', on_delete=models.CASCADE)
     item = models.ForeignKey(Item, related_name='questions', on_delete=models.CASCADE, null=True)
     question = models.TextField(max_length=600, default='', blank=True)
 
@@ -62,7 +62,7 @@ class Question(models.Model):
         }
 
 class Answer(models.Model):
-    user = models.ForeignKey(CustomUser, related_name='answers', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='answers', on_delete=models.CASCADE)
     item = models.ForeignKey(Item, related_name='answers', on_delete=models.CASCADE, null=True)
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE, null=True)
     answer = models.TextField(max_length=600, default='', blank=True)
