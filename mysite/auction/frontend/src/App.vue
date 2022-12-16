@@ -1,4 +1,30 @@
 <template>
+    <form @submit.prevent="addItem">
+        <div>
+            <label>Title:</label><br>
+            <input type="text" name="title" v-model="item.title"><br>
+            <label>Starting Price:</label><br>
+            <input type="number" step="0.01" name="starting_price" v-model="item.starting_price"><br>
+            <label>Description:</label><br>
+            <input type="text" name="description" v-model="item.description"><br>
+            <label>End Date</label><br>
+            <input type="date" name="end_date" v-model="item.end_date"><br>
+            <label>End Time:</label><br>
+            <input type="time" name="end_time" v-model="item.end_time"><br>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
+    <form @submit.prevent="editProfile">
+        <div>
+            <label>Date of Birth:</label><br>
+            <input type="date" name="dob" v-model="user.dob"><br>
+            <label>Email:</label><br>
+            <input type="email" name="email" v-model="user.email"><br>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
     <form @submit.prevent="searchItems">
         <div>
             <label>Search</label>
@@ -28,10 +54,11 @@
         <button @click="fetchBids(1)">Get Bid</button>
         <button @click="fetchQuestions(1)">Get Question</button>
         <button @click="fetchAnswers(1)">Get Answer</button>
+        <button @click="fetchProfile">Get Profile</button>
         <div> 
             <ul>
                 <li v-for="item in items" :key="item.id">
-                    <img v-bind:src="sliceString(item.item_image)" id="item_pic"/>
+                    <img v-bind:src="sliceString(item.item_image)"/>
                     {{ item.title }}
                     {{ item.starting_price }}
                     {{ item.description }}
@@ -133,6 +160,19 @@ export default {
             this.answers = data.answers;
         },
 
+        async fetchProfile() {
+            let response = await fetch(
+                "http://localhost:8000/api/profile/",
+                {
+                    credentials: "include",
+                    mode: "cors",
+                    referrerPolicy: "no-referrer",
+                }
+                );
+        let data = await response.json();
+        this.user = data.user;
+        },
+
         async searchItems() {
             let response = await fetch('http://localhost:8000/api/search/', 
             {
@@ -202,6 +242,40 @@ export default {
             );
             let data = await response.json();
             this.answer = data.answer;
+        },
+
+        async addItem() {
+            let response = await fetch("http://localhost:8000/api/items/", 
+            {
+                method: "post",
+                credentials: "include",
+                mode: "cors",
+                referrerPolicy: "no-referrer",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.item)
+            }
+            );
+            let data = await response.json();
+            this.item = data.item;
+        },
+
+        async editProfile() {
+            let response = await fetch("http://localhost:8000/api/profile/", 
+            {
+                method: "put",
+                credentials: "include",
+                mode: "cors",
+                referrerPolicy: "no-referrer",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.user)
+            }
+            );
+            let data = await response.json();
+            this.user = data.user;
         },
 
         async getUser() {
