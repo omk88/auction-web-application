@@ -8,8 +8,6 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     dob = models.DateField(default=d)
     profile_picture = models.ImageField(default='default.png',upload_to='uploads/')
-    
-    
 
     def __str__(self):
         return self.username

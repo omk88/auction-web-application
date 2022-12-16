@@ -8,7 +8,7 @@ class Item(models.Model):
     title = models.CharField(max_length=100)
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(max_length=600, default='', blank=True)
-    item_image = models.ImageField(upload_to='uploads/')
+    item_image = models.ImageField(upload_to='auction/frontend/public/')
     end_date = models.DateField(auto_now=True)
     end_time = models.TimeField(auto_now=True)
 
