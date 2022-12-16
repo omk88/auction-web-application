@@ -1,6 +1,7 @@
 import json
 from django import forms
-from django.views.decorators.csrf import csrf_exempt, login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from rest_framework.parsers import JSONParser
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -15,7 +16,7 @@ from .serializers import ItemSerializer, BidSerializer, QuestionSerializer, Answ
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ['title', 'starting_price', 'description', 'item_image', 'end_date', 'end_time']
+        fields: list[str] = ['title', 'starting_price', 'description', 'item_image', 'end_date', 'end_time']
 
         title = forms.CharField(max_length=100)
         starting_price = forms.DecimalField(max_digits=10, decimal_places=2)
