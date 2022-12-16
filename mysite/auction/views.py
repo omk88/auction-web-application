@@ -1,5 +1,7 @@
 import json
+from django import forms
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from rest_framework.parsers import JSONParser
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -10,6 +12,28 @@ from users.models import CustomUser
 from .models import Item, Bid, Question, Answer
 from .serializers import ItemSerializer, BidSerializer, QuestionSerializer, AnswerSerializer, UserSerializer
 
+class ItemForm(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields: list[str] = ['title', 'starting_price', 'description', 'item_image', 'end_date', 'end_time']
+
+        title = forms.CharField(max_length=100)
+        starting_price = forms.DecimalField(max_digits=10, decimal_places=2)
+        description = forms.CharField(max_length=600)
+        item_image = forms.ImageField()
+        end_date = forms.DateField()
+        end_time = forms.TimeField()
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'dob', 'profile_picture']
+
+        email = forms.EmailField()
+        dob = forms.DateField()  
+        item_image = forms.ImageField()
+
+@login_required
 @csrf_exempt
 def items_api(request):
     if request.method == 'GET':
