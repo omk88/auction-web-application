@@ -1,5 +1,6 @@
 import json
-from django.views.decorators.csrf import csrf_exempt
+from django import forms
+from django.views.decorators.csrf import csrf_exempt, login_required
 from django.shortcuts import render, get_object_or_404
 from rest_framework.parsers import JSONParser
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -8,8 +9,31 @@ from django.conf import settings
 
 from users.models import CustomUser
 from .models import Item, Bid, Question, Answer
+#from .forms import ItemForm
 from .serializers import ItemSerializer, BidSerializer, QuestionSerializer, AnswerSerializer, UserSerializer
 
+class ItemForm(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields = ['title', 'starting_price', 'description', 'item_image', 'end_date', 'end_time']
+
+        title = forms.CharField(max_length=100)
+        starting_price = forms.DecimalField(max_digits=10, decimal_places=2)
+        description = forms.CharField(max_length=600)
+        item_image = forms.ImageField()
+        end_date = forms.DateField()
+        end_time = forms.TimeField()
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'dob', 'profile_picture']
+
+        email = forms.EmailField()
+        dob = forms.DateField()  
+        item_image = forms.ImageField()
+
+@login_required
 @csrf_exempt
 def items_api(request):
     if request.method == 'GET':
@@ -28,6 +52,23 @@ def items_api(request):
         return JsonResponse({
             'item': serializer.data
         })
+
+#   if request.method == 'POST':
+#        form = ItemForm(request.POST, request.FILES)
+#        if form.is_valid():
+#            current_user = get_object_or_404(CustomUser, id=request.user.id)
+#            title = form['title'].value()
+#            starting_price = form['starting_price'].value()
+#            description = form['description'].value()
+#            item_image = form['item_image'].value()
+#            end_date = form['end_date'].value()
+#            end_time = form['end_time'].value()
+#            item = Item(user = current_user, title = title, starting_price = starting_price, item_image = item_image, description = description, end_date = end_date, end_time = end_time)
+#            item.save()
+#            serializer = ItemSerializer(item, many=False)
+#            return JsonResponse({
+#                'item': serializer.data
+#                })
 
 @csrf_exempt
 def item_api(request: HttpRequest, item_id: int) -> HttpResponse:
@@ -52,6 +93,7 @@ def search_api(request: HttpRequest) -> HttpResponse:
             'items': serializer.data
         })
 
+@login_required
 @csrf_exempt
 def bid_api(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
@@ -77,6 +119,7 @@ def bid_api(request: HttpRequest) -> HttpResponse:
         else:
             return JsonResponse({'message': 'Invalid bid'})
 
+@login_required
 @csrf_exempt
 def question_api(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
@@ -90,6 +133,7 @@ def question_api(request: HttpRequest) -> HttpResponse:
             'question': serializer.data
         })
 
+@login_required
 @csrf_exempt
 def answer_api(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
@@ -143,6 +187,7 @@ def get_user(request: HttpRequest) -> HttpResponse:
         current_user = request.user
         return JsonResponse(current_user.id, safe=False)
 
+@login_required
 @csrf_exempt
 def profile_api(request: HttpRequest) -> HttpResponse:
     if request.method == 'GET':

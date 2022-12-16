@@ -7,7 +7,9 @@
             <input type="number" step="0.01" name="starting_price" v-model="item.starting_price"><br>
             <label>Description:</label><br>
             <input type="text" name="description" v-model="item.description"><br>
-            <label>End Date</label><br>
+            <label>Item Image:</label><br>
+            <input type="file" name="item_image" v-on:change="item.end_image"><br>
+            <label>End Date:</label><br>
             <input type="date" name="end_date" v-model="item.end_date"><br>
             <label>End Time:</label><br>
             <input type="time" name="end_time" v-model="item.end_time"><br>
@@ -260,6 +262,30 @@ export default {
             let data = await response.json();
             this.item = data.item;
         },
+
+        /*async addItem() {
+            let formData = new FormData();
+            formData.append('title', this.item.title);
+            formData.append('starting_price', this.item.starting_price);
+            formData.append('description', this.item.description);
+            formData.append('item_image', this.item.item_image);
+            formData.append('end_date', this.item.end_date);
+            formData.append('end_time', this.item.end_time);
+            let response = await fetch("http://localhost:8000/api/items/", 
+            {
+                method: "post",
+                credentials: "include",
+                mode: "cors",
+                referrerPolicy: "no-referrer",
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                body: formData
+            }
+            );
+            let data = await response.json();
+            this.item = data.item;
+        },*/
 
         async editProfile() {
             let response = await fetch("http://localhost:8000/api/profile/", 
