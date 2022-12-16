@@ -1,7 +1,6 @@
 import json
 from django import forms
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from rest_framework.parsers import JSONParser
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -33,7 +32,6 @@ class UserForm(forms.ModelForm):
         dob = forms.DateField()  
         item_image = forms.ImageField()
 
-@login_required
 @csrf_exempt
 def items_api(request):
     if request.method == 'GET':
