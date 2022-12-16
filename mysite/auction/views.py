@@ -126,6 +126,13 @@ def answers_api(request: HttpRequest, question_id: int) -> HttpResponse:
         return JsonResponse({
             'answers': serializer.data
         })
+
+@csrf_exempt
+def profilepage_api(request: HttpRequest) -> HttpResponse:
+    if request.method == 'PUT':
+        test = 1
+        #TODO
+
 @csrf_exempt
 def get_user(request: HttpRequest) -> HttpResponse:
     if request.method == 'GET':

@@ -31,6 +31,7 @@
         <div> 
             <ul>
                 <li v-for="item in items" :key="item.id">
+                    <img v-bind:src="sliceString(item.item_image)" id="item_pic"/>
                     {{ item.title }}
                     {{ item.starting_price }}
                     {{ item.description }}
@@ -215,8 +216,16 @@ export default {
         let data = await response.json();
         this.user = data.user;
         },
+
+        sliceString(string) {
+            string = String(string);
+            var result = string.substring(string.lastIndexOf("/"));
+            return result;
+            
+        }
     }
 }
+
 </script>
 
 
