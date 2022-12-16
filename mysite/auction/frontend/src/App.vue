@@ -3,6 +3,7 @@
         <router-link to="/">Home</router-link>
         <router-link to="/auction">Auction</router-link>
         <router-link to="/profile">Profile</router-link>
+        <router-link to="/bid-detail">Bid</router-link>
 
         <form class="search-container" @submit.prevent=searchItems>
             <div>
