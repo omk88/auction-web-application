@@ -8,7 +8,7 @@ from django.conf import settings
 
 from users.models import CustomUser
 from .models import Item, Bid, Question, Answer
-from .serializers import ItemSerializer, BidSerializer, QuestionSerializer, AnswerSerializer
+from .serializers import ItemSerializer, BidSerializer, QuestionSerializer, AnswerSerializer, UserSerializer
 
 @csrf_exempt
 def items_api(request):
@@ -17,6 +17,16 @@ def items_api(request):
         serializer = ItemSerializer(items, many=True)
         return JsonResponse({
             'items': serializer.data
+        })
+
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        current_user = get_object_or_404(CustomUser, id=request.user.id)
+        item = Item(user = current_user, title = data['title'], starting_price = data['starting_price'], description = data['description'], end_date = data['end_date'], end_time = data['end_time'])
+        item.save()
+        serializer = ItemSerializer(item, many=False)
+        return JsonResponse({
+            'item': serializer.data
         })
 
 @csrf_exempt
@@ -128,13 +138,29 @@ def answers_api(request: HttpRequest, question_id: int) -> HttpResponse:
         })
 
 @csrf_exempt
-def profilepage_api(request: HttpRequest) -> HttpResponse:
-    if request.method == 'PUT':
-        test = 1
-        #TODO
-
-@csrf_exempt
 def get_user(request: HttpRequest) -> HttpResponse:
     if request.method == 'GET':
         current_user = request.user
         return JsonResponse(current_user.id, safe=False)
+
+@csrf_exempt
+def profile_api(request: HttpRequest) -> HttpResponse:
+    if request.method == 'GET':
+        current_user = get_object_or_404(CustomUser, id=request.user.id)
+        serializer = UserSerializer(current_user, many=False)
+        return JsonResponse({
+            'user': serializer.data
+        })
+    
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        current_user = get_object_or_404(CustomUser, id=request.user.id)
+        if (data['email'] is not None):
+            current_user.email = data['email']
+        if (data['dob'] is not None):
+            current_user.dob = data['dob']
+        current_user.save()
+        serializer = UserSerializer(current_user, many=False)
+        return JsonResponse({
+            'user': serializer.data
+        })

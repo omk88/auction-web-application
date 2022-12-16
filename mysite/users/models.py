@@ -12,3 +12,10 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+    def to_dict(self):
+        return {
+            'email': self.email,
+            'dob': self.dob,
+            'profile_picture': self.profile_picture.url
+        }

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from .models import Item, Bid, Question, Answer
+from users.models import CustomUser
 
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,3 +47,13 @@ class AnswerSerializer(serializers.ModelSerializer):
             'question',
             'answer'
             ]
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = [
+            'id',
+            'email',
+            'dob',
+            'profile_picture'
+        ]
