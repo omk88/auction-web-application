@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="title">
-            <h1>Bid now!</h1>
+            <h1>Welcome to the Auction!</h1>
         </div>
         
         <div class="container">

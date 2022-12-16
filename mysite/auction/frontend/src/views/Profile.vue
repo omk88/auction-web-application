@@ -1,20 +1,6 @@
 <template>
     <p>Profile</p>
-    <form @submit.prevent="addItem">
-        <div>
-            <label>Title:</label><br>
-            <input type="text" name="title" v-model="item.title"><br>
-            <label>Starting Price:</label><br>
-            <input type="number" step="0.01" name="starting_price" v-model="item.starting_price"><br>
-            <label>Description:</label><br>
-            <input type="text" name="description" v-model="item.description"><br>
-            <label>End Date</label><br>
-            <input type="date" name="end_date" v-model="item.end_date"><br>
-            <label>End Time:</label><br>
-            <input type="time" name="end_time" v-model="item.end_time"><br>
-            <button type="submit">Submit</button>
-        </div>
-    </form>
+    
 
     <form @submit.prevent="editProfile">
         <div>
@@ -29,5 +15,57 @@
 
 <script>
 export default {
+    data() {
+        return {
+           user: {} 
+        }
+    },
+    mounted() {
+        this.getUser()
+    },
+    methods: {
+        async getUser() {
+            let response = await fetch(
+                "http://localhost:8000/api/user/",
+                {
+                    credentials: "include",
+                    mode: "cors",
+                    referrerPolicy: "no-referrer",
+                }
+                );
+        let data = await response.json();
+        this.user = data.user;
+        },
+
+        async fetchProfile() {
+            let response = await fetch(
+                "http://localhost:8000/api/profile/",
+                {
+                    credentials: "include",
+                    mode: "cors",
+                    referrerPolicy: "no-referrer",
+                }
+                );
+        let data = await response.json();
+        this.user = data.user;
+        },
+
+        async editProfile() {
+            let response = await fetch("http://localhost:8000/api/profile/", 
+            {
+                method: "put",
+                credentials: "include",
+                mode: "cors",
+                referrerPolicy: "no-referrer",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.user)
+            }
+            );
+            let data = await response.json();
+            this.user = data.user;
+        },
+    }
 }
 </script>

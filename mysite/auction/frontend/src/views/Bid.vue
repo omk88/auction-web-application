@@ -16,9 +16,31 @@
                     <span class="item-end_date">End Date: {{item.end_date}}<br></span>
                     <span class="item-end_time">End Time: {{item.end_time}}<br></span>
                     <span class="item-id">Product ID: {{item.id}}<br></span>
-                    
-                    <button class="button" @click="bidItem(item.id)">Make a Bid</button>
                 </div>
+
+                <form @submit.prevent="bidItem(item.id)">
+                        <div>
+                            <label>Bid</label>
+                            <input type="text" v-model="bidAmount" placeholder="Enter amount">
+                            <input hidden placeholder="">
+                            <button type="submit">Submit</button>
+                        </div>
+                </form>
+
+                <form @submit.prevent="sendQuestion(1)">
+                    <div>
+                        <label>Question</label>
+                        <input type="text" v-model="questionText" placeholder="Enter text here...">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+                <form @submit.prevent="sendAnswer(1, 2)">
+                    <div>
+                        <label>Answer</label>
+                        <input type="text" v-model="answerText" placeholder="Enter text here...">
+                        <button type="submit">Submit</button>
+                    </div>
+    </form>
             </div>
         </div>
 </template>
