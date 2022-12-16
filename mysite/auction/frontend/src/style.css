@@ -12,7 +12,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
 }
 
 a {
@@ -26,8 +25,8 @@ a:hover {
 
 body {
   margin: 0;
+  padding-top: 150px;
   display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -35,6 +34,7 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  padding-bottom: 200px;
 }
 
 button {
@@ -118,4 +118,10 @@ button:focus-visible {
 a {
   text-decoration: none;
   font-weight: bold;
+}
+
+.item-box {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 0 50px 100px 50px;
 }

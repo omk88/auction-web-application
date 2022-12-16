@@ -1,22 +1,27 @@
 <template>
     <div>
-        <section>
-            <div class="home">
-                <title>Check out the items for auction!</title>
-            </div>
-        </section>
+        
+        <div class="title">
+            <h1>Bid now!</h1>
+        </div>
+        
 
-        <div class="item-desc" v-for="item in items" v-bind:key="item.id">
+        <div class="item-box" v-for="item in items" v-bind:key="item.id">
             <figure class="item-image">
-                <img v-bind:src="item.get_image"/>
+                <img v-bind:src="sliceString(item.item_image)" id="item_pic"/>
             </figure>
 
             <span class="item-title">{{item.title}}<br></span>
-            <span class="item-price">{{item.starting_price}}<br></span>
-            <span class="item-description">{{item.description}}<br></span>
-            <span class="item-end_date">{{item.end_date}}<br></span>
-            <span class="item-end_time">{{item.end_time}}<br></span>
-            <span class="item-id">{{item.id}}<br></span>
+            <span class="item-price">Starting Price: £{{item.starting_price}}<br></span>
+            <span class="item-description">Description: {{item.description}}<br></span>
+            <span class="item-end_date">End Date: {{item.end_date}}<br></span>
+            <span class="item-end_time">End Time: {{item.end_time}}<br></span>
+            <span class="item-id">Product ID: {{item.id}}<br></span>
+            <form @submit.prevent="bidItem(item.id)">
+        <div>
+            <button class="button" type="submit">Make a Bid</button>
+        </div>
+    </form>
         </div>
     </div>
 
@@ -37,7 +42,8 @@ export default {
             questions: [],
             answers: [],
             question: {},
-            answer: {}
+            answer: {},
+            user: {}
         }
     },
     mounted() {
@@ -112,7 +118,7 @@ export default {
             let data = await response.json();
             this.questions = data.questions;
         },
-        async fetchAnswers(item_id) {
+        async fetchAnswers(question_id) {
             let response = await fetch(
                 "http://localhost:8000/api/answers/" + String(question_id) + "/",
                 {
@@ -159,6 +165,26 @@ export default {
             let data = await response.json();
             this.answer = data.answer;
         },
+
+        async getUser() {
+            let response = await fetch(
+                "http://localhost:8000/api/user/",
+                {
+                    credentials: "include",
+                    mode: "cors",
+                    referrerPolicy: "no-referrer",
+                }
+                );
+        let data = await response.json();
+        this.user = data.user;
+        },
+
+        sliceString(string) {
+            string = String(string);
+            var result = string.substring(string.lastIndexOf("/"));
+            return result;
+        }
     }
 }
+
 </script>

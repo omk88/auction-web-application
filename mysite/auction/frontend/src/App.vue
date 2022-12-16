@@ -6,7 +6,7 @@
 
         <form class="search-container" @submit.prevent=searchItems>
             <div>
-                <input class="input" type="text" v-model="searchItems" placeholder="Search">
+                <input class="input" type="text" v-model="searchText" placeholder="Search">
                 <button class="action-text" type="search">Search</button>
             </div>
         </form>
@@ -32,7 +32,7 @@ export default {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(this.searchItems)
+                body: JSON.stringify(this.searchText)
             }
             );
             let data= await response.json();
