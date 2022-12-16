@@ -1,52 +1,9 @@
 <template>
-<<<<<<< HEAD
     <div class="nav">
         <router-link to="/">Home</router-link>
         <router-link to="/auction">Auction</router-link>
         <router-link to="/profile">Profile</router-link>
         <router-link to="/bid-detail">Bid</router-link>
-=======
-    <form @submit.prevent="addItem">
-        <div>
-            <label>Title:</label><br>
-            <input type="text" name="title" v-model="item.title"><br>
-            <label>Starting Price:</label><br>
-            <input type="number" step="0.01" name="starting_price" v-model="item.starting_price"><br>
-            <label>Description:</label><br>
-            <input type="text" name="description" v-model="item.description"><br>
-            <label>End Date</label><br>
-            <input type="date" name="end_date" v-model="item.end_date"><br>
-            <label>End Time:</label><br>
-            <input type="time" name="end_time" v-model="item.end_time"><br>
-            <button type="submit">Submit</button>
-        </div>
-    </form>
-
-    <form @submit.prevent="editProfile">
-        <div>
-            <label>Date of Birth:</label><br>
-            <input type="date" name="dob" v-model="user.dob"><br>
-            <label>Email:</label><br>
-            <input type="email" name="email" v-model="user.email"><br>
-            <button type="submit">Submit</button>
-        </div>
-    </form>
-
-    <form @submit.prevent="searchItems">
-        <div>
-            <label>Search</label>
-            <input type="text" v-model="searchText" placeholder="Enter text here...">
-            <button type="submit">Submit</button>
-        </div>
-    </form>
-    <form @submit.prevent="sendQuestion(1)">
-        <div>
-            <label>Question</label>
-            <input type="text" v-model="questionText" placeholder="Enter text here...">
-            <button type="submit">Submit</button>
-        </div>
-    </form>
->>>>>>> 845292b5 (Add item, edit profile, fetch profile)
 
         <form class="search-container" @submit.prevent=searchItems>
             <div>
@@ -57,37 +14,7 @@
     </div>
 
     <div>
-<<<<<<< HEAD
         <router-view></router-view>
-=======
-        <button @click="fetchItems">Get Listings</button>
-        <button @click="getUser">Get User</button>
-        <button @click="fetchBids(1)">Get Bid</button>
-        <button @click="fetchQuestions(1)">Get Question</button>
-        <button @click="fetchAnswers(1)">Get Answer</button>
-        <button @click="fetchProfile">Get Profile</button>
-        <div> 
-            <ul>
-                <li v-for="item in items" :key="item.id">
-                    <img v-bind:src="sliceString(item.item_image)"/>
-                    {{ item.title }}
-                    {{ item.starting_price }}
-                    {{ item.description }}
-                    {{ item.end_date }}
-                    {{ item.end_time }}
-                    {{ item.id }}
-                    <form @submit.prevent="bidItem(item.id)">
-                        <div>
-                            <label>Bid</label>
-                            <input type="text" v-model="bidAmount" placeholder="Enter amount">
-                            <input hidden placeholder="">
-                            <button type="submit">Submit</button>
-                        </div>
-                    </form>
-                </li>
-            </ul>
-        </div>
->>>>>>> 845292b5 (Add item, edit profile, fetch profile)
     </div>
 </template>
 
@@ -96,87 +23,6 @@
 <script>
 export default {
     methods: {
-<<<<<<< HEAD
-=======
-        async fetchItems() {
-            let response = await fetch(
-                "http://localhost:8000/api/items/",
-                {
-                    credentials: "include",
-                    mode: "cors",
-                    referrerPolicy: "no-referrer",
-                }
-                );
-        let data = await response.json();
-        this.items = data.items;
-        },
-
-        async fetchItem(item_id) {
-            let response = await fetch(
-                "http://localhost:8000/api/item/" + String(item_id) + "/",
-                {
-                    credentials: "include",
-                    mode: "cors",
-                    referrerPolicy: "no-referrer",
-                }
-                );
-            let data = await response.json();
-            this.item = data.item;
-        },
-
-        async fetchBids(item_id) {
-            let response = await fetch(
-                "http://localhost:8000/api/bids/" + String(item_id) + "/",
-                {
-                    credentials: "include",
-                    mode: "cors",
-                    referrerPolicy: "no-referrer",
-                }
-                );
-            let data = await response.json();
-            this.bids = data.bids;
-        },
-
-        async fetchQuestions(item_id) {
-            let response = await fetch(
-                "http://localhost:8000/api/questions/" + String(item_id) + "/",
-                {
-                    credentials: "include",
-                    mode: "cors",
-                    referrerPolicy: "no-referrer",
-                }
-                );
-            let data = await response.json();
-            this.questions = data.questions;
-        },
-
-        async fetchAnswers(question_id) {
-            let response = await fetch(
-                "http://localhost:8000/api/answers/" + String(question_id) + "/",
-                {
-                    credentials: "include",
-                    mode: "cors",
-                    referrerPolicy: "no-referrer",
-                }
-                );
-            let data = await response.json();
-            this.answers = data.answers;
-        },
-
-        async fetchProfile() {
-            let response = await fetch(
-                "http://localhost:8000/api/profile/",
-                {
-                    credentials: "include",
-                    mode: "cors",
-                    referrerPolicy: "no-referrer",
-                }
-                );
-        let data = await response.json();
-        this.user = data.user;
-        },
-
->>>>>>> 845292b5 (Add item, edit profile, fetch profile)
         async searchItems() {
             let response = await fetch('http://localhost:8000/api/search/', 
             {
@@ -190,121 +36,8 @@ export default {
                 body: JSON.stringify(this.searchText)
             }
             );
-<<<<<<< HEAD
             let data= await response.json();
             this.items = data.items
-=======
-            let data = await response.json();
-            this.items = data.items;
-        },
-
-        async bidItem(item_id) {
-            var obj = {item: item_id, amount: this.bidAmount};
-            let response = await fetch('http://localhost:8000/api/bid/', 
-            {
-                method: "post",
-                credentials: "include",
-                mode: "cors",
-                referrerPolicy: "no-referrer",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(obj)
-            }
-            );
-            let data = await response.json();
-            this.bid = data.bid;
-        },
-
-        async sendQuestion(item_id) {
-            var obj = {item: item_id, question: this.questionText};
-            let response = await fetch('http://localhost:8000/api/question/', 
-            {
-                method: "post",
-                credentials: "include",
-                mode: "cors",
-                referrerPolicy: "no-referrer",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(obj)
-            }
-            );
-            let data = await response.json();
-            this.question = data.question;
-        },
-
-        async sendAnswer(item_id, question_id) {
-            var obj = {item: item_id, question: question_id, answer: this.answerText};
-            let response = await fetch('http://localhost:8000/api/answer/', 
-            {
-                method: "post",
-                credentials: "include",
-                mode: "cors",
-                referrerPolicy: "no-referrer",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(obj)
-            }
-            );
-            let data = await response.json();
-            this.answer = data.answer;
-        },
-
-        async addItem() {
-            let response = await fetch("http://localhost:8000/api/items/", 
-            {
-                method: "post",
-                credentials: "include",
-                mode: "cors",
-                referrerPolicy: "no-referrer",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.item)
-            }
-            );
-            let data = await response.json();
-            this.item = data.item;
-        },
-
-        async editProfile() {
-            let response = await fetch("http://localhost:8000/api/profile/", 
-            {
-                method: "put",
-                credentials: "include",
-                mode: "cors",
-                referrerPolicy: "no-referrer",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.user)
-            }
-            );
-            let data = await response.json();
-            this.user = data.user;
-        },
-
-        async getUser() {
-            let response = await fetch(
-                "http://localhost:8000/api/user/",
-                {
-                    credentials: "include",
-                    mode: "cors",
-                    referrerPolicy: "no-referrer",
-                }
-                );
-        let data = await response.json();
-        this.user = data.user;
-        },
-
-        sliceString(string) {
-            string = String(string);
-            var result = string.substring(string.lastIndexOf("/"));
-            return result;
-            
->>>>>>> 845292b5 (Add item, edit profile, fetch profile)
         }
     }
 }
