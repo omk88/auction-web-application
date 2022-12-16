@@ -7,12 +7,7 @@ class CustomUser(AbstractUser):
     d = datetime.date(1997, 10, 19)
     email = models.EmailField(unique=True)
     dob = models.DateField(default=d)
-<<<<<<< HEAD
-    profile_picture = models.ImageField(default='default.png',upload_to='uploads/')
-    city = models.CharField(default="London",max_length=150)
-=======
     profile_picture = models.ImageField(default='default.png',upload_to='auction/frontend/public/')
->>>>>>> 9583c16d (Modified registration)
 
     def __str__(self):
         return self.username
