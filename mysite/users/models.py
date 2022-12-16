@@ -8,7 +8,6 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     dob = models.DateField(default=d)
     profile_picture = models.ImageField(default='default.png',upload_to='auction/frontend/public/')
-    city = models.CharField(default="London",max_length=150)
 
     def __str__(self):
         return self.username
