@@ -17,7 +17,7 @@
                     <span class="item-end_date">End Date: {{item.end_date}}<br></span>
                     <span class="item-end_time">End Time: {{item.end_time}}<br></span>
                     <span class="item-id">Product ID: {{item.id}}<br></span>
-                    <form>
+                    <form @submit.prevent="">
                         <button class="button" @click="goToBid(item.id)">Make a Bid</button>
                     </form>
                 </div>
@@ -176,6 +176,53 @@ export default {
                 );
         let data = await response.json();
         this.user = data.user;
+        },
+
+        async fetchProfile() {
+            let response = await fetch(
+                "http://localhost:8000/api/profile/",
+                {
+                    credentials: "include",
+                    mode: "cors",
+                    referrerPolicy: "no-referrer",
+                }
+                );
+        let data = await response.json();
+        this.user = data.user;
+        },
+
+        async addItem() {
+            let response = await fetch("http://localhost:8000/api/items/", 
+            {
+                method: "post",
+                credentials: "include",
+                mode: "cors",
+                referrerPolicy: "no-referrer",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.item)
+            }
+            );
+            let data = await response.json();
+            this.item = data.item;
+        },
+
+        async editProfile() {
+            let response = await fetch("http://localhost:8000/api/profile/", 
+            {
+                method: "put",
+                credentials: "include",
+                mode: "cors",
+                referrerPolicy: "no-referrer",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.user)
+            }
+            );
+            let data = await response.json();
+            this.user = data.user;
         },
 
         sliceString(string) {

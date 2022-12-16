@@ -1,27 +1,26 @@
 <template>
     <p>Auction</p>
 
-    <form @submit.prevent="bidIem">
+    <form @submit.prevent="bidItem(item.id)">
         <div>
             <label>Bid</label>
-            <input type="text" v-model="bid.amount" placeholder="Enter amount">
-            <input hidden v-model="bid.item" placeholder="">
+            <input type="text" v-model="bidAmount" placeholder="Enter amount">
+            <input hidden placeholder="">
             <button type="submit">Submit</button>
         </div>
     </form>
 
-    <form @submit.prevent="sendQuestion">
+    <form @submit.prevent="sendQuestion(1)">
         <div>
             <label>Question</label>
-            <input type="text" v-model="searchText" placeholder="Search">
+            <input type="text" v-model="questionText" placeholder="Enter text here...">
             <button type="submit">Submit</button>
         </div>
     </form>
-
-    <form @submit.prevent="sendAnswer">
+    <form @submit.prevent="sendAnswer(1, 2)">
         <div>
             <label>Answer</label>
-            <input type="text" v-model="searchText" placeholder="Search">
+            <input type="text" v-model="answerText" placeholder="Enter text here...">
             <button type="submit">Submit</button>
         </div>
     </form>
@@ -29,6 +28,5 @@
 
 <script>
 export default {
-    
 }
 </script>
